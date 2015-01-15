@@ -34,6 +34,13 @@
 <div class="dascontainer">
   <nav>
   <img class="logo" src="images/logo.svg"/>
+
+<div class="search">
+    <input type="text" id="input"  onfocus="this.value = '';" value="Start Searching"/>
+    </div>
+    <span class="input"></span>
+
+
   </nav>
 
   <div class="grafiek">
@@ -48,49 +55,18 @@
     </div>
     <div id="grafiekinner" class="grafiekcontent">
       <ul class="jaartallen">
-        <li>1595</li>
-        <li>1596</li>
-        <li>1597</li>
-        <li>1598</li>
-        <li>1599</li>
-        <li>1600</li>
-        <li>1601</li>
-        <li>1602</li>
-        <li>1603</li>
-        <li>1604</li>
-        <li>1605</li>
-        <li>1606</li>
-        <li>1607</li>
 
       </ul>
 
     <ul class="jaarbalken">
-      <li>
+<!--       <li>
         <div class="balk tooltipje" title="This is my div's tooltip message!"></div>
         <div class="balk tooltipje" style="width: 20px" title="This is my div's tooltip message!"></div>
         <div class="balk tooltipje" style="width: 85px" title="This is my div's tooltip message!"></div>
         <div class="balk tooltipje" style="width: 85px" title="This is my div's tooltip message!"></div>
         <div class="balk" style="width: 75px"></div>
-      </li>
-      <li>
-        <div class="balk" style="width: 20px"></div>
-        <div>
-          <div class="balk cateen" style="width: 65px"></div>
-          <div class="balk cattwee" style="width: 35px"></div>
-          <div class="balk catdrie" style="width: 14px"></div>
-        </div>
-        <div class="balk" style="width: 85px"></div>
-      </li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li id="testding">
-        
-      </li>
-      <li></li>
+      </li> -->
+
     </ul>
     </div>
   </div>
@@ -130,25 +106,109 @@
           .key(function(d) { return d.year;})
           .entries(data);
 
-        console.log(mutatedData[0].values);
+        // console.log(mutatedData[1].values);
 
         /* Creating Core Selector */
-        var scherm = d3.select("#testding").selectAll("div.voyage").data(mutatedData[0].values);
+        var jaarbalk = d3.select(".jaarbalken").selectAll("li.jaarcontainer").data(mutatedData);
+        var jaartallen = d3.select(".jaartallen").selectAll("li.tijdlijnjaar").data(mutatedData);
 
-        /* Appending divs and giving them the proper classes */
-        scherm.enter()
-          .append("div")
+console.table(mutatedData);
+        
+        /* Creates timeline*/
+        jaartallen.enter()
+          .append("li")
+          .classed("tijdlijnaar", true)
+          .text( function(d) { return (d.values[0].year) });
+
+        /* Create year container voyages*/
+        jaarbalk.enter()
+          .append("li")
+          .attr("class", function(d) { return "jaar" + (d.values[0].year) }) // Adding the year as a class
+          .classed({
+            "jaarcontainer": true
+          })
+
+
+
+          // http://stackoverflow.com/questions/21321840/how-to-do-an-append-loop-in-d3-js
+          /* Maakt voyages voor de losse jaren aan */
+
+          // d3.select(this).append('div')
+          .selectAll('div.balk').data(mutatedData).enter()
+          .append('div')
+          .attr("class", function(d) { return "id" + (d.values[0].id) }) 
+          .attr("data-ship", function(d) { return (d.values[0].shipname) }) 
           .classed({
             "voyage": true, 
             "balk": true
           })
           .style({
-            "width": function(d) { return (d.tonnage) * 0.1 + "px" },
+            "width": function(d, i) { return (d.values[0].tonnage) * 0.1 + "px" },
             "color": "white"
-        });
+          })
+
+
+
+        //   .each(function(d) {
+        //     var hoeveel = d.values;
+        //     console.log(hoeveel);
+        //     for (var i = 1; i < hoeveel.length; i++) {
+        //       jaarbalk.append("div")
+        //       .attr("class", function(d, i) { return "id" + (d.values[0].id) }) 
+        //       .classed({
+        //         "voyage": true, 
+        //         "balk": true
+        //       })
+        //       .style({
+        //         "width": function(d, i) { return (d.values[0].tonnage) * 0.1 + "px" },
+        //         "color": "white"
+        //       })
+        //     }
+        // });
+
+
+
+
+
+        // var scherm = d3.select("li.jaarcontainer").selectAll("div.voyage").data(mutatedData[0].values);
+
+        // /* Appending divs and giving them the proper classes */
+        // scherm.enter()
+        //   .append("div")
+        //   .classed({
+        //     "voyage": true, 
+        //     "balk": true
+        //   })
+        //   .style({
+        //     "width": function(d) { return (d.tonnage) * 0.1 + "px" },
+        //     "color": "white"
+        // });
 
 
       }); 
+
+      $.noConflict();
+      jQuery(document).ready(function($) {
+        $('#input').on( "keyup", function() {
+          // get the value from text field
+          var input = $(this).val();
+          // check wheather the matching element exists
+            // by default every list element will be shown
+            $(".jaarbalken div").show();
+            // Non related element will be hidden after input
+            $(".jaarbalken div").not("[data-ship*="+ input +"]").hide();
+          
+          // For Search Variable, total number of lists and number of matched elements
+          var total = $(".jaarbalken div").length;
+          var matched = $(".jaarbalken div[data-ship*="+ input +"]").length;
+          if(input.length > 0){
+            $('.input').show();
+            $('.input').html('Searched for "' + input + '" (' + matched + ' Matched out of ' + total + ' )');
+          } else {
+            $('.input').hide();}
+        });
+      });
+
 
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
       function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
