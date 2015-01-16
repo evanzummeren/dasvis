@@ -109,10 +109,10 @@
         // console.log(mutatedData[1].values);
 
         /* Creating Core Selector */
-        var jaarbalk = d3.select(".jaarbalken").selectAll("li.jaarcontainer").data(mutatedData);
         var jaartallen = d3.select(".jaartallen").selectAll("li.tijdlijnjaar").data(mutatedData);
+        var jaarbalk = d3.select(".jaarbalken").selectAll("li.jaarcontainer").data(mutatedData);
 
-console.table(mutatedData);
+        console.table(mutatedData);
         
         /* Creates timeline*/
         jaartallen.enter()
