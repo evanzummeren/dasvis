@@ -124,7 +124,7 @@
         // Creating a single year
         jaarbalk.enter()
           .append("li")
-          .attr("class", function(djaar) { return "jaar" + (djaar.values[0].year) }) // Adding the year as a class
+          .attr("class", function(djaar) { return "jaar" + (djaar.values[0].year) }) // Year as class
           .classed({
             "jaarcontainer": true
           })
@@ -135,8 +135,8 @@
             return djaar.values})
           .enter()
           .append('div')
-          .attr("class", function(did) { return (did.id) })
           .attr({
+            "class": function(did) { return (did.id) },
             "data-departure": function(d) { return (d.departureplace) },
             "data-arrival": function(dship) { return (dship.arrivalplace) },
             "data-ship": function(dship) { return (dship.shipname) }
