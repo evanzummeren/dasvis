@@ -129,7 +129,6 @@
             "jaarcontainer": true
           })
 
-
           // Filling the years with boats
           .selectAll('div.balk')
           .data(function(djaar){
@@ -137,9 +136,11 @@
           .enter()
           .append('div')
           .attr("class", function(did) { return (did.id) })
-          .attr("data-departure", function(d) { return (d.departureplace) }) // Add data-attr dep
-          .attr("data-arrival", function(dship) { return (dship.arrivalplace) }) // Add data-attr arrival
-          .attr("data-ship", function(dship) { return (dship.shipname) }) // Add data-attr shipname
+          .attr({
+            "data-departure": function(d) { return (d.departureplace) },
+            "data-arrival": function(dship) { return (dship.arrivalplace) },
+            "data-ship": function(dship) { return (dship.shipname) }
+          })
           .classed({
             "voyage": true, 
             "balk": true
