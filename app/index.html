@@ -98,54 +98,62 @@
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
 
-      d3.json("data_mock.json", function(err, dasdata) {
+      d3.json("data.json", function(err, dasdata) {
 
+        // manipulating dataset
         var data = dasdata;
-
         var mutatedData = d3.nest()
           .key(function(d) { return d.year;})
           .entries(data);
 
-        // console.log(mutatedData[1].values);
+        // console.table(mutatedData);
 
-        /* Creating Core Selector */
+        // Adding the years inside the jaartallen container
         var jaartallen = d3.select(".jaartallen").selectAll("li.tijdlijnjaar").data(mutatedData);
-        var jaarbalk = d3.select(".jaarbalken").selectAll("li.jaarcontainer").data(mutatedData);
 
-        console.table(mutatedData);
-        
-        /* Creates timeline*/
         jaartallen.enter()
           .append("li")
           .classed("tijdlijnaar", true)
           .text( function(d) { return (d.values[0].year) });
 
-        /* Create year container voyages*/
+
+        // Adding the boats inside the jaarbalken container
+        var jaarbalk = d3.select(".jaarbalken").selectAll("li.jaarcontainer").data(mutatedData);
+
+          
+        // Creating a single year
         jaarbalk.enter()
           .append("li")
-          .attr("class", function(d) { return "jaar" + (d.values[0].year) }) // Adding the year as a class
+          .attr("class", function(djaar) { return "jaar" + (djaar.values[0].year) }) // Adding the year as a class
           .classed({
             "jaarcontainer": true
           })
 
 
-
-          // http://stackoverflow.com/questions/21321840/how-to-do-an-append-loop-in-d3-js
-          /* Maakt voyages voor de losse jaren aan */
-
-          // d3.select(this).append('div')
-          .selectAll('div.balk').data(mutatedData).enter()
+          // Filling the years with boats
+          .selectAll('div.balk')
+          .data(function(djaar){
+            return djaar.values})
+          .enter()
           .append('div')
-          .attr("class", function(d) { return "id" + (d.values[0].id) }) 
-          .attr("data-ship", function(d) { return (d.values[0].shipname) }) 
+          .attr("class", function(did) { return (did.id) })
+          .attr("data-departure", function(d) { return (d.departureplace) }) // Add data-attr dep
+          .attr("data-arrival", function(dship) { return (dship.arrivalplace) }) // Add data-attr arrival
+          .attr("data-ship", function(dship) { return (dship.shipname) }) // Add data-attr shipname
           .classed({
             "voyage": true, 
             "balk": true
           })
           .style({
-            "width": function(d, i) { return (d.values[0].tonnage) * 0.1 + "px" },
+            "width": function(dscheepje) {
+              console.log(dscheepje);
+              return (dscheepje.tonnage) * 0.1 + "px" 
+            },
             "color": "white"
-          })
+          });
+
+
+          
 
 
 
