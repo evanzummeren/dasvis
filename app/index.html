@@ -31,6 +31,10 @@
   <div id="bottom"></div>
 
   <div id="filtercenter">
+<div class="search">
+    <input type="text" id="input"  onfocus="this.value = '';" value="Start Searching"/>
+    </div>
+        <span class="input"></span>
 
   </div>
 
@@ -39,11 +43,6 @@
 <div class="dascontainer">
   <nav>
   <img class="logo" src="images/logo.svg"/>
-
-<div class="search">
-    <input type="text" id="input"  onfocus="this.value = '';" value="Start Searching"/>
-    </div>
-    <span class="input"></span>
 
 
   </nav>
@@ -105,6 +104,7 @@
         var performTooltip = function(){
           jQuery('.voyage').tooltipster();
         };
+
         // manipulating dataset
         var data = dasdata;
         var mutatedData = d3.nest()
@@ -116,7 +116,6 @@
 
         jaartallen.enter()
           .append("li")
-          .classed("tijdlijnaar", true)
           .text( function(d) { return (d.values[0].year) });
 
         // Adding the boats inside the jaarbalken container
@@ -165,11 +164,28 @@
           .classed({
             "segmentcontainer": true
           })
-          .append('div')
-          .style({
-            "width": function(d) {
-              return ( ( parseFloat(d.soldiers) / (parseFloat(d.soldiers) + parseFloat(d.seafarers)) ) * 100 + "%")
-            },
+
+          // Add segments soldiers && seafa && passenger
+
+          // Add segments soldiers && seafarers
+          .each(function(d) {
+            d3.select(this)
+            .append('div')
+            .classed({"firstsegment": true})
+              .style({
+                "width": function(d) {
+                  return ( ( parseFloat(d.soldiers) / (parseFloat(d.soldiers) + parseFloat(d.seafarers)) ) * 100 + "%")
+                  },
+                })
+
+            d3.select(this)
+            .append('div')
+            .classed({"secondsegment": true})
+              .style({
+                "width": function(d) {
+                  return ( ( parseFloat(d.seafarers) / (parseFloat(d.soldiers) + parseFloat(d.seafarers)) ) * 100 + "%")
+                  },
+                })
           });
           
 
