@@ -59,6 +59,14 @@ body {
   bottom: 30px;
   right: 30px;
 }
+#filtercenter {
+  height: 50px;
+  z-index: 1000;
+  width: 700px;
+  bottom: 0;
+  position: fixed;
+  background: white;
+}
 
 nav {
   padding-left: 30px;
@@ -190,6 +198,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#848484', end
   border: 1px solid black;
   border-left: none;
 }
+
+
+
+
+
+
 
 
 

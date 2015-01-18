@@ -14,7 +14,10 @@
         "numberleftct": "",
         "numberonboardct": "",
         "numbertotaldeath": "",
-        "numberarrival": ""
+        "numberarrival": "",
+        "soldiers": 20,
+        "seafarers": 30,
+        "passengers": 10
     },
     {
         "id": "2.1",
@@ -31,7 +34,10 @@
         "numberleftct": "",
         "numberonboardct": "",
         "numbertotaldeath": "",
-        "numberarrival": ""
+        "numberarrival": "",
+        "soldiers": "20",
+        "seafarers": "30",
+        "passengers": "10"
     },
     {
         "id": "3.1",
@@ -48,7 +54,10 @@
         "numberleftct": "",
         "numberonboardct": "",
         "numbertotaldeath": "",
-        "numberarrival": ""
+        "numberarrival": "",
+        "soldiers": "20",
+        "seafarers": "30",
+        "passengers": "10"
     },
     {
         "id": "4.1",
