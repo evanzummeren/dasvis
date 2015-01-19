@@ -104,12 +104,13 @@
 
 
       d3.json("data.json", function(err, dasdata) {
+        
         // Tooltip function
         var performTooltip = function(){
           jQuery('.voyage').tooltipster();
         };
 
-        // manipulating dataset
+        // Manipulating dataset
         var data = dasdata;
         var mutatedData = d3.nest()
           .key(function(d) { return d.year;})
@@ -133,76 +134,79 @@
             "jaarcontainer": true
           })
 
-          .each(function(d) { //Nieuw
-            d3.select(this) // Nieuw
+          // Append the year & voyage chart inside li
+          .each(function(d) { 
+            d3.select(this)
+
+            // Append only the year
             .append("div")
+            .classed("jaartaldiv", true)
             .html(function(djaar) { return (djaar.values[0].year) })
 
-          // Filling the years with boats
-            d3.select(this) // Nieuw
-          .selectAll('div.balk')
-          .data( function(djaar){
-            return djaar.values
-          })
-          .enter()
-          .append('div')
-          .attr({
-            "class": function(did) { return (did.id) },
-            "data-departure": function(d) { return (d.departureplace) },
-            "data-arrival": function(dship) { return (dship.arrivalplace) },
-            "data-ship": function(dship) { return (dship.shipname) },
-            "title": function(d) { return (d.shipname + " arrival: " + d.arrivalplace + " tonnage: " + d.tonnage)}
-          })      
-          .classed({
-            "voyage": true, 
-            "balk": true
-          })
-          .style({
-            "width": function(dscheepje) {
-              return (dscheepje.tonnage) * 0.1 + "px" 
-            },
-            "color": "white"
-          })
-
+            // Append voyage chart (empty)
+            d3.select(this)
+            .selectAll('div.balk')
+            .data( function(djaar){
+              return djaar.values
+            })
+            .enter()
+            .append('div')
+            .attr({
+              "class": function(did) { return (did.id) },
+              "data-departure": function(d) { return (d.departureplace) },
+              "data-arrival": function(dship) { return (dship.arrivalplace) },
+              "data-ship": function(dship) { return (dship.shipname) },
+              "title": function(d) { return (d.shipname + " arrival: " + d.arrivalplace + " tonnage: " + d.tonnage)}
+            })      
+            .classed({
+              "voyage": true, 
+              "balk": true
+            })
+            .style({
+              "width": function(d) { return (d.tonnage) * 0.1 + "px"}
+            })
     
-          // Add segments soldiers && seafarers
-          .filter(function(d){
-            return d.soldiers > 1 && d.seafarers > 1 
-          })
-          .append('div')
-          .classed({
-            "segmentcontainer": true
-          })
-          .each(function(d) {
-            d3.select(this)
+            // Further specify the voyage chart
+            // First case (Soldiers & Seafarers)
+            .filter(function(d){
+              return d.soldiers > 1 && d.seafarers > 1 
+            })
             .append('div')
-            .classed({"firstsegmentoftwo": true})
-            .style({
-              "width": function(d) {
-                return ( ( parseFloat(d.soldiers) / (parseFloat(d.soldiers) + parseFloat(d.seafarers)) ) * 100 + "%")
-                },
+            .classed({
+              "segmentcontainer": true
+            })
+
+            // Putting the segments in
+            .each(function(d) {
+              d3.select(this)
+              .append('div')
+              .classed({"firstsegmentoftwo": true})
+              .style({
+                "width": function(d) {
+                  return ( ( parseFloat(d.soldiers) / (parseFloat(d.soldiers) + parseFloat(d.seafarers)) ) * 100 + "%")
+                }
               })
 
-            d3.select(this)
-            .append('div')
-            .classed({"secondsegmentoftwo": true})
-            .style({
-              "width": function(d) {
-                return ( ( parseFloat(d.seafarers) / (parseFloat(d.soldiers) + parseFloat(d.seafarers)) ) * 100 + "%")
-                },
+              d3.select(this)
+              .append('div')
+              .classed({"secondsegmentoftwo": true})
+              .style({
+                "width": function(d) {
+                  return ( ( parseFloat(d.seafarers) / (parseFloat(d.soldiers) + parseFloat(d.seafarers)) ) * 100 + "%")
+                }
               })
-          })
+            })
 
-          // Add segments soldiers && seafa && passenger
-          .filter(function(d) {
-            return d.soldiers > 1 && d.seafarers > 1 && d.passengers > 1
-          })
-          .append('div')
-          .classed({
-            "doettiehetofdoettiehetniet": true
-          })
+            // Add segments soldiers && seafa && passenger
+            .filter(function(d) {
+              return d.soldiers > 1 && d.seafarers > 1 && d.passengers > 1
+            })
+            .append('div')
+            .classed({
+              "doettiehetofdoettiehetniet": true
+            })
           
-          }); // Eventueel weg, de chain klopt volgens mij niet meer Dit is het einde van de each functie
+          }); // End of second select this
 
           // Init tooltip
           performTooltip();
@@ -253,9 +257,6 @@
       // r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
       // ga('create','UA-XXXXX-X');ga('send','pageview');
 
-
-        // $(document).ready(function() {
-        // });
 
     </script>
 
