@@ -102,6 +102,7 @@
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
 
+
       d3.json("data.json", function(err, dasdata) {
         // Tooltip function
         var performTooltip = function(){
@@ -127,14 +128,18 @@
         // Creating a single year
         jaarbalk.enter()
           .append("li")
-          // Begin van jaartal restructure
-          // .html(function(djaar) { return (djaar.values[0].year) })
           .attr("class", function(djaar) { return "jaar" + (djaar.values[0].year) }) // Year as class
           .classed({
             "jaarcontainer": true
           })
 
+          .each(function(d) { //Nieuw
+            d3.select(this) // Nieuw
+            .append("div")
+            .html(function(djaar) { return (djaar.values[0].year) })
+
           // Filling the years with boats
+            d3.select(this) // Nieuw
           .selectAll('div.balk')
           .data( function(djaar){
             return djaar.values
@@ -159,6 +164,7 @@
             "color": "white"
           })
 
+    
           // Add segments soldiers && seafarers
           .filter(function(d){
             return d.soldiers > 1 && d.seafarers > 1 
@@ -194,8 +200,10 @@
           .append('div')
           .classed({
             "doettiehetofdoettiehetniet": true
-          });
+          })
           
+          }); // Eventueel weg, de chain klopt volgens mij niet meer Dit is het einde van de each functie
+
           // Init tooltip
           performTooltip();
 
