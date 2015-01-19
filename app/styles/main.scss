@@ -178,7 +178,7 @@ nav {
 .segmentcontainer {
   width: 100%;
 }
-.firstsegment {
+.firstsegmentoftwo {
   float: left;
   height: $heightvoyagebar;
   border-top-left-radius: 10px;
@@ -190,7 +190,7 @@ nav {
   margin-top: -1px;
 
 }
-.secondsegment {
+.secondsegmentoftwo {
   float: left;
   margin-top: -1px;
   height: $heightvoyagebar;
@@ -203,7 +203,19 @@ nav {
 }
 
 
-.cateen {
+.firstsegmentofthree {
+  /* mixin shit */
+}
+.secondsegmentofthree {
+  float: left;
+  margin-top: -1px;
+  height: $heightvoyagebar;
+}
+.thirdsegmentofthree {
+  /* mixinshit */
+}
+
+/*.cateen {
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   border-top-right-radius: 0;
@@ -230,7 +242,7 @@ nav {
   background: purple;
   border: 1px solid black;
   border-left: none;
-}
+}*/
 
 
 

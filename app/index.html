@@ -31,8 +31,10 @@
   <div id="bottom"></div>
 
   <div id="filtercenter">
-<div class="search">
-    <input type="text" id="input"  onfocus="this.value = '';" value="Start Searching"/>
+  <img src="images/tijdelijk.png" style="width: 22%; float: left;"/>
+<div class="search" style="float: left; margin-top: 12px; margin-left: 20px">
+    <input type="text" id="input"  onfocus="this.value = '';" value="Ship"/>
+    <input type="text" id="inputsecond"  onfocus="this.value = '';" value="Aankomst"/>
     </div>
         <span class="input"></span>
 
@@ -101,6 +103,7 @@
     <script>
 
       d3.json("data.json", function(err, dasdata) {
+        // Tooltip function
         var performTooltip = function(){
           jQuery('.voyage').tooltipster();
         };
@@ -156,7 +159,7 @@
             "color": "white"
           })
 
-          // Add chart segments soldiers crew passengers
+          // Add segments soldiers && seafarers
           .filter(function(d){
             return d.soldiers > 1 && d.seafarers > 1 
           })
@@ -164,36 +167,41 @@
           .classed({
             "segmentcontainer": true
           })
-
-          // Add segments soldiers && seafa && passenger
-
-          // Add segments soldiers && seafarers
           .each(function(d) {
             d3.select(this)
             .append('div')
-            .classed({"firstsegment": true})
-              .style({
-                "width": function(d) {
-                  return ( ( parseFloat(d.soldiers) / (parseFloat(d.soldiers) + parseFloat(d.seafarers)) ) * 100 + "%")
-                  },
-                })
+            .classed({"firstsegmentoftwo": true})
+            .style({
+              "width": function(d) {
+                return ( ( parseFloat(d.soldiers) / (parseFloat(d.soldiers) + parseFloat(d.seafarers)) ) * 100 + "%")
+                },
+              })
 
             d3.select(this)
             .append('div')
-            .classed({"secondsegment": true})
-              .style({
-                "width": function(d) {
-                  return ( ( parseFloat(d.seafarers) / (parseFloat(d.soldiers) + parseFloat(d.seafarers)) ) * 100 + "%")
-                  },
-                })
+            .classed({"secondsegmentoftwo": true})
+            .style({
+              "width": function(d) {
+                return ( ( parseFloat(d.seafarers) / (parseFloat(d.soldiers) + parseFloat(d.seafarers)) ) * 100 + "%")
+                },
+              })
+          })
+
+          // Add segments soldiers && seafa && passenger
+          .filter(function(d) {
+            return d.soldiers > 1 && d.seafarers > 1 && d.passengers > 1
+          })
+          .append('div')
+          .classed({
+            "doettiehetofdoettiehetniet": true
           });
           
-
+          // Init tooltip
           performTooltip();
-
 
       }); 
 
+      // Begin data filter
       $.noConflict();
       jQuery(document).ready(function($) {
 
@@ -215,6 +223,18 @@
           } else {
             $('.input').hide();}
         });
+
+        $('#inputsecond').on( "keyup", function() {
+          // get the value from text field
+          var input = $(this).val();
+          // check wheather the matching element exists
+            // by default every list element will be shown
+            $(".jaarbalken div").show();
+            // Non related element will be hidden after input
+            $(".jaarbalken div").not("[data-arrival*="+ input +"]").hide();
+          });
+
+
       });
 
 
