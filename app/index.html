@@ -63,9 +63,6 @@
 
     <div id="grafiekinner" class="grafiekcontent">
      
-      <ul class="jaartallen">
-          <!-- De jaartallen, in een later stadium combo met jaarbalken -->
-      </ul>
 
       <ul class="jaarbalken">
           <!-- Hier komen alle voyages... Whooptiedoe! -->
@@ -103,7 +100,7 @@
     <script>
 
 
-      d3.json("data.json", function(err, dasdata) {
+      d3.json("data_cleanp.json", function(err, dasdata) {
         
         // Tooltip function
         var performTooltip = function(){
@@ -115,13 +112,6 @@
         var mutatedData = d3.nest()
           .key(function(d) { return d.year;})
           .entries(data);
-
-        // Adding the years inside the jaartallen container
-        var jaartallen = d3.select(".jaartallen").selectAll("li.tijdlijnjaar").data(mutatedData);
-
-        jaartallen.enter()
-          .append("li")
-          .text( function(d) { return (d.values[0].year) });
 
         // Adding the boats inside the jaarbalken container
         var jaarbalk = d3.select(".jaarbalken").selectAll("li.jaarcontainer").data(mutatedData);
@@ -139,7 +129,7 @@
             d3.select(this)
 
             // Append only the year
-            .append("div")
+            .append("span")
             .classed("jaartaldiv", true)
             .html(function(djaar) { return (djaar.values[0].year) })
 
@@ -163,7 +153,7 @@
               "balk": true
             })
             .style({
-              "width": function(d) { return (d.tonnage) * 0.1 + "px"}
+              "width": function(d) { return (d.tonnage) * 0.05 + "px"}
             })
     
             // Further specify the voyage chart
