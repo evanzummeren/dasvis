@@ -56,12 +56,6 @@ body {
     #top { top: 0; }
     #bottom { bottom: 0; }
 
-.histo {
-  width: 376px;
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-}
 #filtercenter {
   height: 50px;
   z-index: 1000;
@@ -135,8 +129,9 @@ color: #5C6386;
 height: 25px;
 line-height: 25px;
 padding-left: 18px;
+margin-left: -60px;
 }
-.jaartallen {
+/*.jaartallen {
   width: $eerstecolumn + 25px;
   list-style-type: none;
   margin-left: -40px;
@@ -153,7 +148,7 @@ padding-left: 18px;
 }
 .jaartallen li:nth-child(even) {
   background: rgba(0, 0, 0, 0.1);
-}
+}*/
 .jaarbalken li:nth-child(even) {
   background: rgba(0, 0, 0, 0.1);
 }
@@ -161,7 +156,7 @@ padding-left: 18px;
   list-style-type: none;
 }
 .jaarbalken li {
-  width: 1000px;
+  width: 100%;
   float: left;
 /*  height: $hoogtejaarbalk;
 */  margin-left: 17px;
@@ -366,9 +361,6 @@ padding-left: 18px;
   cursor: help;
   margin-left: 4px;
 }
-
-
-
 
 
 

@@ -40,12 +40,11 @@
 
   </div>
 
-  <img class="histo" src="images/histogram.png"/>
 
 <div class="dascontainer">
   <nav>
   <img class="logo" src="images/logo.svg"/>
-
+  <div class="argh"></div>
 
   </nav>
 
@@ -100,8 +99,8 @@
     <script>
 
 
-      d3.json("data_cleanp.json", function(err, dasdata) {
-        
+      d3.json("data_clean_firstpart.json", function(err, dasdata) { 
+
         // Tooltip function
         var performTooltip = function(){
           jQuery('.voyage').tooltipster();
@@ -115,6 +114,8 @@
 
         // Adding the boats inside the jaarbalken container
         var jaarbalk = d3.select(".jaarbalken").selectAll("li.jaarcontainer").data(mutatedData);
+
+        console.log(mutatedData[25, 30])
 
         // Creating a single year
         jaarbalk.enter()
@@ -143,65 +144,108 @@
             .append('div')
             .attr({
               "class": function(did) { return (did.id) },
-              "data-departure": function(d) { return (d.departureplace) },
-              "data-arrival": function(dship) { return (dship.arrivalplace) },
-              "data-ship": function(dship) { return (dship.shipname) },
-              "title": function(d) { return (d.shipname + " arrival: " + d.arrivalplace + " tonnage: " + d.tonnage)}
+              "data-departure": function(d) { return (d.departurePlace) },
+              "data-arrival": function(dship) { return (dship.arrivalPlace) },
+              "data-ship": function(dship) { return (dship.shipName) },
+              "data-tonnage": function(dship) { return (dship.tonnage)},
+              "title": function(d) { return (d.shipName + " arrival: " + d.arrivalPlace + " tonnage: " + d.tonnage)}
             })      
             .classed({
               "voyage": true, 
               "balk": true
             })
             .style({
-              "width": function(d) { return (d.tonnage) * 0.05 + "px"}
+              "width": function(d) { return (d.tonnage) * 0.035 + "px"}
             })
+
+
+            // Robert Jan gedeelte
+            .selectAll()
+              .data(dpeople)
+              .filter(function(dTypeOfPerson){
+                  if(Total && null){
+                      return false;
+                  } else {
+                      return true;
+                  }
+              })
+              .enter()
+              .append('div')
+              )
+              .classed({
+                  "groupOfPeople": true
+              })
+              .style(
+                  width: ammountOfPeople
+              )
     
             // Further specify the voyage chart
             // First case (Soldiers & Seafarers)
-            .filter(function(d){
-              return d.soldiers > 1 && d.seafarers > 1 
-            })
-            .append('div')
-            .classed({
-              "segmentcontainer": true
-            })
 
-            // Putting the segments in
-            .each(function(d) {
-              d3.select(this)
-              .append('div')
-              .classed({"firstsegmentoftwo": true})
-              .style({
-                "width": function(d) {
-                  return ( ( parseFloat(d.soldiers) / (parseFloat(d.soldiers) + parseFloat(d.seafarers)) ) * 100 + "%")
-                }
-              })
 
-              d3.select(this)
-              .append('div')
-              .classed({"secondsegmentoftwo": true})
-              .style({
-                "width": function(d) {
-                  return ( ( parseFloat(d.seafarers) / (parseFloat(d.soldiers) + parseFloat(d.seafarers)) ) * 100 + "%")
-                }
-              })
-            })
 
-            // Add segments soldiers && seafa && passenger
-            .filter(function(d) {
-              return d.soldiers > 1 && d.seafarers > 1 && d.passengers > 1
-            })
-            .append('div')
-            .classed({
-              "doettiehetofdoettiehetniet": true
-            })
+
+
+            
+          //   .filter(function(d){
+          //     if {
+          //       d.people
+          //     } else {
+
+          //     }
+          //     console.log(d)
+          //     return d.people.Seafarers.I > 1 && d.people.Soldiers.I > 1 
+          //   })
+          //   .append('div')
+          //   .classed({
+          //     "segmentcontainer": true
+          //   })
+
+          //   // Putting the segments in
+          //   .each(function(d) {
+          //     d3.select(this)
+          //     .append('div')
+          //     .classed({"firstsegmentoftwo": true})
+          //     .style({
+          //       "width": function(d) {
+          //         return ( ( parseFloat(d.soldiers) / (parseFloat(d.soldiers) + parseFloat(d.seafarers)) ) * 100 + "%")
+          //       }
+          //     })
+
+          //     d3.select(this)
+          //     .append('div')
+          //     .classed({"secondsegmentoftwo": true})
+          //     .style({
+          //       "width": function(d) {
+          //         return ( ( parseFloat(d.seafarers) / (parseFloat(d.soldiers) + parseFloat(d.seafarers)) ) * 100 + "%")
+          //       }
+          //     })
+          //   })
+
+          //   // Add segments soldiers && seafa && passenger
+          //   .filter(function(d) {
+          //     return d.soldiers > 1 && d.seafarers > 1 && d.passengers > 1
+          //   })
+          //   .append('div')
+          //   .classed({
+          //     "doettiehetofdoettiehetniet": true
+          //   })
           
-          }); // End of second select this
+          // }); // End of second select this
 
           // Init tooltip
           performTooltip();
 
+          // var current = 0;
+          // jQuery("div").find("[data-tonnage='" + current + "']").remove();
+
+
+           // var jaarbalktwee = d3.select(".argh").selectAll(".argh").data(mutatedData);
+
+
       }); 
+
+
 
       // Begin data filter
       $.noConflict();
